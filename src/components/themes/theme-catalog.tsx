@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -118,6 +118,21 @@ export function ThemeCatalog() {
     const filterRef = useRef<HTMLDivElement>(null);
     const gridRef = useRef<HTMLDivElement>(null);
 
+    const [isSticky, setIsSticky] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (filterRef.current) {
+                const rect = filterRef.current.getBoundingClientRect();
+                // 96px is top-24. We use a small buffer.
+                setIsSticky(rect.top <= 97);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     // Filter Logic
     const filteredThemes = customThemes.filter((theme) => {
         const matchesCategory = activeCategory === "All" || theme.category === activeCategory;
@@ -155,7 +170,13 @@ export function ThemeCatalog() {
                 </div>
 
                 {/* Filter & Search */}
-                <div ref={filterRef} className="flex flex-col lg:flex-row justify-between items-center gap-6 mb-12 sticky top-24 z-40 bg-white/80 backdrop-blur-xl py-4 px-1 rounded-2xl border-b border-gray-100/50 transition-all">
+                <div
+                    ref={filterRef}
+                    className={`flex flex-col lg:flex-row justify-between items-center gap-6 mb-12 sticky top-24 z-40 py-4 px-1 rounded-2xl transition-all duration-300 ${isSticky
+                        ? "bg-gray-50/80 backdrop-blur-xl border-b border-gray-100/50 shadow-sm"
+                        : "bg-white"
+                        }`}
+                >
                     {/* Categories: Minimalist Underline Style */}
                     <div className="flex flex-wrap gap-1 justify-center lg:justify-start">
                         {categories.map((category) => (

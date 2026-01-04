@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { Calendar, User, Clock, ArrowRight, Search, ChevronLeft, ChevronRight, X, Sparkles } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { articles } from "@/lib/articles";
 import { Button } from "@/components/ui/button";
 
@@ -14,6 +14,19 @@ export function ArticleListPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("Semua");
     const [currentPage, setCurrentPage] = useState(1);
+    const [isSticky, setIsSticky] = useState(false);
+    const filterRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (filterRef.current) {
+                const rect = filterRef.current.getBoundingClientRect();
+                setIsSticky(rect.top <= 97);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     // Get unique categories
     const categories = useMemo(() => {
@@ -84,8 +97,14 @@ export function ArticleListPage() {
             </section>
 
             {/* Filter & Search Bar */}
-            <section className="container mx-auto px-6 md:px-12 mb-12 sticky top-24 z-40 bg-white/80 backdrop-blur-xl py-4 px-4 rounded-2xl border-b border-gray-100/50 transition-all">
-                <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
+            <section className="container mx-auto px-4 md:px-12 mb-12 sticky top-24 z-40 transition-none">
+                <div
+                    ref={filterRef}
+                    className={`flex flex-col lg:flex-row justify-between items-center gap-6 py-4 px-1 rounded-2xl transition-all duration-300 ${isSticky
+                        ? "bg-gray-50/80 backdrop-blur-xl border-b border-gray-100/50 shadow-sm"
+                        : "bg-white"
+                        }`}
+                >
                     {/* Categories: Minimalist Underline Style */}
                     <div className="flex flex-wrap gap-1 justify-center lg:justify-start">
                         {categories.map((category) => (
@@ -109,7 +128,7 @@ export function ArticleListPage() {
                     </div>
 
                     {/* Search Bar */}
-                    <div className="relative w-full lg:w-80 group">
+                    <div className="relative w-full max-w-[95%] lg:max-w-none lg:w-80 group mx-auto lg:mx-0">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-hover:text-pink-500 transition-colors" />
                         <input
                             type="text"
@@ -131,7 +150,7 @@ export function ArticleListPage() {
             </section>
 
             {/* Articles Grid */}
-            <section className="container mx-auto px-6 md:px-12">
+            <section className="container mx-auto px-4 md:px-6">
                 <AnimatePresence mode="wait">
                     {paginatedArticles.length > 0 ? (
                         <motion.div
@@ -140,7 +159,7 @@ export function ArticleListPage() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3 }}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-1"
                         >
                             {paginatedArticles.map((article, index) => (
                                 <article

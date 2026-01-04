@@ -97,7 +97,7 @@ export function SiteHeader() {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className={`relative px-5 py-2 text-sm font-semibold transition-colors ${isActive(link.href)
+                            className={`relative px-4 py-2 text-xs font-semibold transition-colors ${isActive(link.href)
                                 ? "text-pink-600"
                                 : "text-gray-400 hover:text-gray-900"
                                 }`}
@@ -106,7 +106,7 @@ export function SiteHeader() {
                             {isActive(link.href) && mounted && (
                                 <motion.div
                                     layoutId="mobile-nav-underline"
-                                    className="absolute bottom-0 left-3 right-3 h-0.5 bg-pink-600 rounded-full"
+                                    className="absolute bottom-0 left-2 right-2 h-[2px] bg-pink-600 rounded-full"
                                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 />
                             )}
