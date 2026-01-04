@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Role {
+  role_id   String   @id @default(uuid()) @db.Uuid
+  role_name String   @unique
+  users     User[]
+
+  @@map("roles")
+}
+
+model User {
+  user_id      String    @id @default(uuid()) @db.Uuid
+  role_id      String    @db.Uuid
+  user_email   String    @unique
+  user_is_active Boolean @default(true)
+  created_at   DateTime  @default(now()) @db.Timestamptz(6)
+
+  role     Role      @relation(fields: [role_id], references: [role_id])
+  weddings Wedding[]
+
+  @@map("users")
+}
+
+model Theme {
+  theme_id   String   @id @default(uuid()) @db.Uuid
+  theme_name String
+  theme_slug String   @unique
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  weddings Wedding[]
+
+  @@map("themes")
+}
+
+model Wedding {
+  wedding_id        String    @id @default(uuid()) @db.Uuid
+  user_id           String    @db.Uuid
+  theme_id          String?   @db.Uuid
+  wedding_slug      String    @unique
+  wedding_date      DateTime? @db.Timestamptz(6)
+  wedding_music_url String?
+  wedding_live_stream_url String?
+
+  groom_name     String?
+  groom_nickname String?
+  groom_photo    String?
+
+  bride_name     String?
+  bride_nickname String?
+  bride_photo    String?
+
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  user   User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  theme  Theme? @relation(fields: [theme_id], references: [theme_id])
+  events WeddingEvent[]
+  guests WeddingGuest[]
+  rsvps  WeddingRSVP[]
+  stories Story[]
+  gifts   Gift[]
+
+  @@map("weddings")
+}
+
+model WeddingEvent {
+  event_id           String   @id @default(uuid()) @db.Uuid
+  wedding_id         String   @db.Uuid
+  event_name         String
+  event_date         DateTime? @db.Date
+  event_location_name String?
+  event_location_maps String?
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+
+  wedding Wedding @relation(fields: [wedding_id], references: [wedding_id], onDelete: Cascade)
+
+  @@map("wedding_events")
+}
+
+model WeddingGuest {
+  guest_id   String   @id @default(uuid()) @db.Uuid
+  wedding_id String   @db.Uuid
+  guest_name String
+  guest_slug String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  wedding Wedding @relation(fields: [wedding_id], references: [wedding_id], onDelete: Cascade)
+  rsvps   WeddingRSVP[]
+
+  @@unique([wedding_id, guest_slug])
+  @@map("wedding_guests")
+}
+
+model WeddingRSVP {
+  rsvp_id      String   @id @default(uuid()) @db.Uuid
+  wedding_id   String   @db.Uuid
+  guest_id     String?  @db.Uuid
+  rsvp_name    String
+  rsvp_status  Boolean
+  rsvp_comment String?
+  created_at   DateTime @default(now()) @db.Timestamptz(6)
+
+  wedding Wedding       @relation(fields: [wedding_id], references: [wedding_id], onDelete: Cascade)
+  guest   WeddingGuest? @relation(fields: [guest_id], references: [guest_id])
+
+  @@map("wedding_rsvps")
+}
+
+model Story {
+  story_id   String   @id @default(uuid()) @db.Uuid
+  wedding_id String   @db.Uuid
+  story_year String   // e.g. "2020" or "Desember 2021"
+  story_title String
+  story_content String
+  story_photo String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  wedding Wedding @relation(fields: [wedding_id], references: [wedding_id], onDelete: Cascade)
+
+  @@map("stories")
+}
+
+model Gift {
+  gift_id      String   @id @default(uuid()) @db.Uuid
+  wedding_id   String   @db.Uuid
+  gift_bank_name String
+  gift_account_name String
+  gift_account_number String
+  gift_qr_image String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+
+  wedding Wedding @relation(fields: [wedding_id], references: [wedding_id], onDelete: Cascade)
+
+  @@map("gifts")
+}
