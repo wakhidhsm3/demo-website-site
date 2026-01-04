@@ -68,7 +68,7 @@ export function TestimonialSection() {
                 <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
                 <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-                <VelocityScroll default_velocity={0.4} className="gap-8 py-8">
+                <VelocityScroll default_velocity={-1} className="gap-8 py-8">
                     {loopTestimonials.map((testimonial, index) => (
                         <div key={index} className="w-[350px] md:w-[450px] flex-shrink-0 mr-8 whitespace-normal">
                             <Card className="h-full border-none shadow-lg hover:shadow-2xl transition-all duration-300 bg-white relative overflow-visible group/card">
@@ -105,22 +105,7 @@ export function TestimonialSection() {
                 </VelocityScroll>
             </div>
 
-            {/* Wave Divider */}
-            <div className="absolute bottom-0 left-0 w-full leading-none z-10">
-                <svg
-                    className="relative block w-full h-[50px] md:h-[100px]"
-                    data-name="Layer 1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 1200 120"
-                    preserveAspectRatio="none"
-                >
-                    <path
-                        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-                        className="fill-slate-50"
-                        transform="rotate(180 600 60)"
-                    ></path>
-                </svg>
-            </div>
+            {/* Wave Divider Removed as per request */}
         </section>
     );
 }

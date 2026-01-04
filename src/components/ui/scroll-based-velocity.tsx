@@ -30,19 +30,27 @@ function ParallaxText({ children, baseVelocity = 100, className }: ParallaxProps
     const { scrollY } = useScroll();
     const scrollVelocity = useVelocity(scrollY);
     const smoothVelocity = useSpring(scrollVelocity, {
-        damping: 50,
-        stiffness: 400,
+        damping: 30,
+        stiffness: 200,
     });
     const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
         clamp: false,
     });
 
-    const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
+    /**
+     * This is a magic number to make the animation smooth.
+     * We use a range of 25% because we have 4 copies of the content.
+     */
+    const x = useTransform(baseX, (v) => `${wrap(-25, 0, v)}%`);
 
     const directionFactor = useRef<number>(1);
     useAnimationFrame((t, delta) => {
         let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
+        /**
+         * This logic allows the scroll direction to change the direction of the marquee.
+         * If you want to disable this behavior, you can remove the directionFactor logic.
+         */
         if (velocityFactor.get() < 0) {
             directionFactor.current = -1;
         } else if (velocityFactor.get() > 0) {
@@ -56,7 +64,10 @@ function ParallaxText({ children, baseVelocity = 100, className }: ParallaxProps
 
     return (
         <div className="parallax min-w-full overflow-hidden whitespace-nowrap">
-            <motion.div className={cn("flex flex-nowrap", className)} style={{ x }}>
+            <motion.div
+                className={cn("flex flex-nowrap", className)}
+                style={{ x, willChange: "transform" }}
+            >
                 {children}
                 {children}
                 {children}
