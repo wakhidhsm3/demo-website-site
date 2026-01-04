@@ -275,17 +275,35 @@ export function ThemeCatalog() {
                         </AnimatePresence>
                     </motion.div>
                 ) : (
-                    <div className="text-center py-20 bg-gray-50 rounded-3xl border border-dashed border-gray-200">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-sm mb-4">
-                            <Search className="w-8 h-8 text-gray-300" />
+                    <div className="text-center py-20">
+                        <div className="relative w-64 h-64 mx-auto mb-8 rounded-full bg-pink-50 flex items-center justify-center overflow-hidden">
+                            <Image
+                                src="https://images.unsplash.com/photo-1510076857177-7470076d4098?q=80&w=600&auto=format&fit=crop"
+                                alt="No Themes Found"
+                                fill
+                                className="object-cover opacity-80"
+                            />
+                            <div className="absolute inset-0 bg-pink-900/10" />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900">Tidak ada tema ditemukan</h3>
-                        <p className="text-gray-500 mt-2">Coba kata kunci lain atau reset filter.</p>
+
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-50 text-pink-600 text-xs font-bold uppercase tracking-widest mb-6">
+                            <Search className="w-3.5 h-3.5" />
+                            <span>Tidak Ditemukan</span>
+                        </div>
+
+                        <h3 className="text-3xl font-bold text-gray-900 mb-4 tracking-tight">
+                            Tema tidak ditemukan
+                        </h3>
+
+                        <p className="text-gray-500 text-lg leading-relaxed mb-8 max-w-md mx-auto">
+                            Maaf, kami tidak dapat menemukan tema yang cocok. Coba kata kunci lain atau lihat semua koleksi kami.
+                        </p>
+
                         <Button
-                            variant="outline"
-                            className="mt-6 border-gray-200 hover:bg-white hover:border-gray-300"
                             onClick={() => { setActiveCategory("All"); setSearchQuery(""); }}
+                            className="inline-flex items-center gap-2 px-8 py-6 rounded-full bg-pink-600 text-white font-bold hover:bg-pink-700 hover:shadow-lg hover:shadow-pink-200 transition-all active:scale-95 group"
                         >
+                            <Filter className="w-4 h-4 transition-transform group-hover:rotate-180" />
                             Reset Pencarian
                         </Button>
                     </div>

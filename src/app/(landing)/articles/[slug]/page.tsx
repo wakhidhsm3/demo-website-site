@@ -1,219 +1,136 @@
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { motion } from "motion/react";
-import { useState } from "react";
-import { ShareModal } from "@/components/articles/share-modal";
-import { Calendar, User, Clock, ChevronLeft, Share2, ArrowRight, Sparkles } from "lucide-react";
+import type { Metadata } from "next";
 import { articles } from "@/lib/articles";
+import { ArticleDetailContent } from "@/components/articles/article-detail-content";
+import Link from "next/link";
+import { ArrowLeft, Search } from "lucide-react";
+import Image from "next/image";
 
-export default function ArticleDetailPage() {
-    const params = useParams();
-    const router = useRouter();
-    const slug = params.slug as string;
-    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+interface ArticleDetailPageProps {
+    params: Promise<{
+        slug: string;
+    }>;
+}
 
-    const article = articles.find(a => a.slug === slug);
-
-    const handleShare = () => {
-        setIsShareModalOpen(true);
-    };
+export async function generateMetadata(props: ArticleDetailPageProps): Promise<Metadata> {
+    const params = await props.params;
+    const slug = params.slug;
+    const article = articles.find((a) => a.slug === slug);
 
     if (!article) {
+        return {
+            title: "Artikel Tidak Ditemukan - Wedify",
+        };
+    }
+
+    return {
+        title: `${article.title} - Wedify Articles`,
+        description: article.excerpt,
+    };
+}
+
+export default async function ArticleDetailPage(props: ArticleDetailPageProps) {
+    const params = await props.params;
+    const { slug } = params;
+    const article = articles.find((a) => a.slug === slug);
+
+    if (!article) {
+        const recommendedArticles = articles.slice(0, 3);
+
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold mb-4">Artikel tidak ditemukan</h1>
-                    <Link href="/articles" className="text-pink-600 font-bold">Kembali ke Artikel</Link>
+            <div className="min-h-screen pt-32 pb-20 bg-gradient-to-b from-pink-50/50 via-white to-white">
+                <div className="container px-6 mx-auto">
+                    {/* Hero Section */}
+                    <div className="max-w-2xl mx-auto text-center mb-20">
+                        <div className="relative w-40 h-40 mx-auto mb-8 rounded-full bg-white p-2 shadow-xl shadow-pink-100 ring-1 ring-pink-50">
+                            <div className="w-full h-full rounded-full overflow-hidden relative">
+                                <Image
+                                    src="https://images.unsplash.com/photo-1510076857177-7470076d4098?q=80&w=600&auto=format&fit=crop"
+                                    alt="Article Not Found"
+                                    fill
+                                    className="object-cover opacity-90 hover:scale-110 transition-transform duration-700"
+                                />
+                            </div>
+                            <div className="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-lg">
+                                <Search className="w-5 h-5 text-pink-600" />
+                            </div>
+                        </div>
+
+                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 tracking-tight font-heading">
+                            Artikel Tidak Ditemukan
+                        </h1>
+
+                        <p className="text-gray-500 text-lg leading-relaxed mb-10 max-w-md mx-auto">
+                            Halaman yang Anda cari mungkin telah dipindahkan atau tidak tersedia saat ini.
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <Link
+                                href="/articles"
+                                className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-pink-600 text-white font-bold hover:bg-pink-700 hover:shadow-lg hover:shadow-pink-200 transition-all active:scale-95 flex items-center justify-center gap-2"
+                            >
+                                <ArrowLeft className="w-4 h-4" />
+                                Lihat Semua Artikel
+                            </Link>
+                            <Link
+                                href="/"
+                                className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-gray-700 font-bold border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all active:scale-95 flex items-center justify-center"
+                            >
+                                Kembali ke Beranda
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="relative py-8 mb-12">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-100"></div>
+                        </div>
+                        <div className="relative flex justify-center text-xs uppercase tracking-widest text-gray-400 font-semibold">
+                            <span className="bg-white px-4">Mungkin Anda Suka</span>
+                        </div>
+                    </div>
+
+                    {/* Recommended Articles */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                        {recommendedArticles.map((item) => (
+                            <Link
+                                key={item.id}
+                                href={`/articles/${item.slug}`}
+                                className="group block bg-white rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-pink-100/50 transition-all duration-300 border border-gray-100 hover:border-pink-100 hover:-translate-y-1"
+                            >
+                                <div className="relative aspect-[16/10] overflow-hidden">
+                                    <Image
+                                        src={item.image}
+                                        alt={item.title}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                    />
+                                    <div className="absolute top-4 left-4">
+                                        <span className="bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full shadow-sm text-gray-900">
+                                            {item.category}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="p-6">
+                                    <div className="flex items-center gap-2 text-xs text-gray-400 mb-3 font-medium">
+                                        <span className="text-pink-600">{item.author}</span>
+                                        <span>•</span>
+                                        <span>{item.date}</span>
+                                    </div>
+                                    <h3 className="text-lg font-bold text-gray-900 mb-2 leading-snug group-hover:text-pink-600 transition-colors line-clamp-2">
+                                        {item.title}
+                                    </h3>
+                                    <p className="text-gray-500 text-sm line-clamp-2 leading-relaxed">
+                                        {item.excerpt}
+                                    </p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
         );
     }
 
-    return (
-        <div className="pt-24 pb-20 bg-white min-h-screen">
-            <div className="container mx-auto px-6 md:px-12">
-                {/* Navigation & Actions */}
-                <div className="flex items-center justify-between mb-16">
-                    <button
-                        onClick={() => router.back()}
-                        className="flex items-center gap-2.5 text-gray-500 hover:text-pink-600 transition-all font-semibold text-sm group"
-                    >
-                        <div className="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center group-hover:border-pink-100 group-hover:bg-pink-50 transition-all">
-                            <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
-                        </div>
-                        Kembali
-                    </button>
-
-                    <div className="flex items-center gap-3">
-                        <button
-                            onClick={handleShare}
-                            className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-pink-600 transition-all"
-                        >
-                            <Share2 className="w-4 h-4" />
-                        </button>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
-                    {/* Main Content */}
-                    <div className="lg:col-span-8">
-                        <article>
-                            {/* Header */}
-                            <header className="mb-16">
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-50 text-pink-600 text-[10px] font-bold uppercase tracking-widest mb-8"
-                                >
-                                    <Sparkles className="w-3 h-3" />
-                                    <span>{article.category}</span>
-                                </motion.div>
-
-                                <motion.h1
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.1 }}
-                                    className="text-4xl md:text-6xl font-bold text-gray-900 mb-10 leading-[1.1] tracking-tighter"
-                                >
-                                    {article.title}
-                                </motion.h1>
-
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.2 }}
-                                    className="flex flex-wrap items-center gap-x-8 gap-y-4 text-[13px] text-gray-500 font-medium"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
-                                            <User className="w-4 h-4 text-gray-600" />
-                                        </div>
-                                        <span className="text-gray-900 font-bold">{article.author}</span>
-                                    </div>
-                                    <div className="w-1 h-1 rounded-full bg-gray-300 hidden sm:block" />
-                                    <div className="flex items-center gap-2">
-                                        <Calendar className="w-4 h-4 text-gray-400" />
-                                        <span>{article.date}</span>
-                                    </div>
-                                    <div className="w-1 h-1 rounded-full bg-gray-300 hidden sm:block" />
-                                    <div className="flex items-center gap-2">
-                                        <Clock className="w-4 h-4 text-gray-400" />
-                                        <span>{article.readTime} Baca</span>
-                                    </div>
-                                </motion.div>
-                            </header>
-
-                            {/* Featured Image */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 }}
-                                className="relative h-[450px] md:h-[550px] rounded-3xl overflow-hidden mb-16 ring-1 ring-gray-100 shadow-xl shadow-gray-100/50"
-                            >
-                                <Image
-                                    src={article.image}
-                                    alt={article.title}
-                                    fill
-                                    unoptimized
-                                    className="object-cover"
-                                    priority
-                                />
-                            </motion.div>
-
-                            {/* Content */}
-                            <div
-                                className="prose prose-lg prose-pink max-w-none 
-                                prose-headings:font-bold prose-headings:text-gray-900 prose-headings:tracking-tight
-                                prose-p:text-gray-600 prose-p:leading-relaxed prose-p:font-normal
-                                prose-strong:text-gray-900 prose-strong:font-bold
-                                prose-img:rounded-2xl prose-img:shadow-md"
-                                dangerouslySetInnerHTML={{ __html: article.content }}
-                            />
-                        </article>
-                    </div>
-
-                    {/* Sidebar: Related Articles */}
-                    <div className="lg:col-span-4 lg:pl-6">
-                        <div className="sticky top-32 space-y-12">
-                            <div>
-                                <h2 className="text-[13px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-10 flex items-center gap-4">
-                                    Artikel Serupa
-                                    <div className="h-px bg-gray-100 flex-grow" />
-                                </h2>
-
-                                <div className="space-y-10">
-                                    {articles
-                                        .filter(a => a.category === article.category && a.id !== article.id)
-                                        .slice(0, 4)
-                                        .map((related) => (
-                                            <Link
-                                                key={related.id}
-                                                href={`/articles/${related.slug}`}
-                                                className="group flex gap-5 items-center"
-                                            >
-                                                <div className="relative w-20 h-20 shrink-0 rounded-2xl overflow-hidden ring-1 ring-gray-100">
-                                                    <Image
-                                                        src={related.image}
-                                                        alt={related.title}
-                                                        fill
-                                                        unoptimized
-                                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                                    />
-                                                </div>
-                                                <div className="space-y-1.5 flex-grow">
-                                                    <h3 className="font-bold text-gray-900 text-sm leading-tight group-hover:text-pink-600 transition-colors line-clamp-2">
-                                                        {related.title}
-                                                    </h3>
-                                                    <span className="text-[11px] text-gray-400 font-medium">{related.date}</span>
-                                                </div>
-                                            </Link>
-                                        ))}
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-
-                {/* CTA Footer */}
-                <footer className="mt-24 border-t border-gray-100 pt-20 pb-10">
-                    <div className="max-w-2xl mx-auto text-center">
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            className="flex justify-center mb-6"
-                        >
-                            <div className="w-10 h-1 px-4 rounded-full bg-pink-100" />
-                        </motion.div>
-
-                        <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-5 tracking-tighter">
-                            Wujudkan <span className="text-pink-600 font-serif italic font-medium">Momen Indah</span> Anda
-                        </h3>
-                        <p className="text-gray-500 text-base font-medium mb-10 max-w-xl mx-auto leading-relaxed">
-                            Mulai langkah pertama hari bahagia Anda dengan desain undangan yang merefleksikan keunikan cinta Anda.
-                        </p>
-
-                        <Link href="/">
-                            <button className="h-14 px-12 rounded-full bg-pink-600 text-white font-bold text-xs uppercase tracking-[0.2em] hover:bg-pink-700 hover:shadow-2xl hover:shadow-pink-200 transition-all active:scale-95">
-                                Mulai Sekarang
-                            </button>
-                        </Link>
-
-                    </div>
-                </footer>
-            </div>
-
-            <ShareModal
-                isOpen={isShareModalOpen}
-                onClose={() => setIsShareModalOpen(false)}
-                url={typeof window !== "undefined" ? window.location.href : ""}
-                title={article.title}
-            />
-        </div>
-    );
+    return <ArticleDetailContent article={article} />;
 }
