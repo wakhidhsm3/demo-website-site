@@ -73,7 +73,7 @@ export function HowItWorksSection() {
                         </div>
 
                         <Button size="lg" className="rounded-full bg-pink-600 text-white hover:bg-pink-700 px-8 h-12 shadow-lg shadow-pink-200">
-                            Coba Gratis Sekarang
+                            Buat Undangan Impianmu
                         </Button>
                     </motion.div>
 

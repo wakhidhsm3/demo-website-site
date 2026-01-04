@@ -464,10 +464,12 @@ export function ThemeCatalog() {
                                                 {selectedTheme.price === "Free" ? "Gratis" : selectedTheme.price}
                                             </span>
                                         </div>
-                                        <Button className="h-12 md:h-14 px-6 md:px-8 rounded-full bg-pink-600 hover:bg-pink-700 text-white text-sm md:text-base font-bold shadow-lg shadow-pink-200 transition-all duration-300 hover:scale-[1.02] active:scale-95 group">
-                                            Pilih Tema Ini
-                                            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                                        </Button>
+                                        <Link href="/login">
+                                            <Button className="h-12 md:h-14 px-6 md:px-8 rounded-full bg-pink-600 hover:bg-pink-700 text-white text-sm md:text-base font-bold shadow-lg shadow-pink-200 transition-all duration-300 hover:scale-[1.02] active:scale-95 group">
+                                                Buat Undangan Impianmu
+                                                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                            </Button>
+                                        </Link>
                                     </div>
                                 </div>
                             </motion.div>

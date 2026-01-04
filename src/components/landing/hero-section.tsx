@@ -28,26 +28,28 @@ export function HeroSection() {
                         </div>
 
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-                            💍 Undangan Pernikahan Digital yang <br className="hidden lg:block" />
+                            Undangan Pernikahan Digital yang <br className="hidden lg:block" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600">
                                 Mengabadikan Kisah Cinta Kalian
                             </span>
                         </h1>
 
                         <p className="text-lg md:text-xl text-gray-500 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-light">
-                            Bagikan momen sakral dengan desain elegan, mudah dibagikan, dan penuh makna — cukup satu link untuk semua tamu.
+                            Bagikan momen sakral dengan desain elegan, mudah dibagikan, dan penuh makna — <span className="underline decoration-pink-500/60 decoration-2 underline-offset-4 text-gray-900 font-medium">cukup satu link untuk semua tamu</span>.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start pt-4">
-                            <Link href="/dashboard" className="w-full sm:w-auto">
+                            <Link href="/login" className="w-full sm:w-auto">
                                 <Button size="lg" className="w-full h-14 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-8 text-base shadow-xl shadow-pink-200 transition-all hover:scale-105">
-                                    👉 Buat Undangan Sekarang
+                                    Buat Undangan Impianmu
                                 </Button>
                             </Link>
                             <Link href="#features" className="w-full sm:w-auto">
-                                <Button size="lg" variant="ghost" className="w-full h-14 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-8 text-base group">
-                                    Eksplorasi Fitur
-                                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                                <Button size="lg" variant="outline" className="w-full h-14 rounded-full bg-white/80 backdrop-blur-md border-white/20 text-gray-700 hover:text-pink-600 hover:bg-white pl-8 pr-2 py-1 text-base shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-100/50 transition-all duration-300 group flex items-center justify-between gap-6 overflow-visible ring-1 ring-gray-200/50 hover:ring-pink-100">
+                                    <span className="font-semibold tracking-wide">Eksplorasi Fitur</span>
+                                    <div className="w-10 h-10 rounded-full bg-gray-50 group-hover:bg-pink-50 flex items-center justify-center border border-gray-100 group-hover:border-pink-100 transition-all duration-300 group-hover:scale-105 group-hover:rotate-[-12deg]">
+                                        <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-pink-500 transition-colors" />
+                                    </div>
                                 </Button>
                             </Link>
                         </div>

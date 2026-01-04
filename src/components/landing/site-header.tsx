@@ -57,7 +57,7 @@ export function SiteHeader() {
                     </Link>
 
                     {/* Desktop Nav */}
-                    <nav className="hidden md:flex items-center gap-8 bg-white/50 px-6 py-2 rounded-full border border-gray-100/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-200/80">
+                    <nav className="hidden md:flex items-center gap-8 bg-white/50 px-6 py-4 rounded-full border border-gray-100/50 backdrop-blur-sm shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-200/80">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}
@@ -81,9 +81,9 @@ export function SiteHeader() {
 
                     {/* Desktop Actions */}
                     <div className="hidden md:flex items-center gap-4">
-                        <Link href="/dashboard">
-                            <Button size="sm" className="rounded-full bg-pink-600 text-white hover:bg-pink-700 transition-colors px-6 shadow-lg shadow-pink-200">
-                                Buat Undangan
+                        <Link href="/login">
+                            <Button className="rounded-full bg-pink-600 text-white hover:bg-pink-700 transition-all px-7 h-11 shadow-md hover:shadow-lg hover:-translate-y-0.5 font-medium tracking-wide">
+                                Buat Undangan Impianmu
                             </Button>
                         </Link>
                     </div>

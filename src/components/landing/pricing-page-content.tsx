@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Sparkles, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Reusing plans data from PricingSection to ensure consistency
@@ -18,7 +19,7 @@ const plans = [
             "Musik Latar Standard",
             "Fitur RSVP Dasar",
         ],
-        buttonText: "Mulai Gratis",
+        buttonText: "Buat Undangan",
         popular: false,
     },
     {
@@ -34,7 +35,7 @@ const plans = [
             "Kirim Undangan via WhatsApp",
             "Peta Lokasi Interaktif",
         ],
-        buttonText: "Pilih Premium",
+        buttonText: "Buat Undangan",
         popular: true,
     },
     {
@@ -50,7 +51,7 @@ const plans = [
             "QR Code Check-in",
             "Export Data ke Excel",
         ],
-        buttonText: "Hubungi Kami",
+        buttonText: "Buat Undangan",
         popular: false,
     },
 ];
@@ -131,15 +132,17 @@ export function PricingPageContent() {
                                     </ul>
                                 </CardContent>
                                 <CardFooter>
-                                    <Button
-                                        className={`w-full ${plan.popular
-                                            ? "bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white shadow-lg shadow-pink-200"
-                                            : "bg-white border-2 border-slate-200 hover:border-pink-300 hover:bg-pink-50 text-slate-900"
-                                            }`}
-                                        variant={plan.popular ? "default" : "outline"}
-                                    >
-                                        {plan.buttonText}
-                                    </Button>
+                                    <Link href="/login" className="w-full">
+                                        <Button
+                                            className={`w-full ${plan.popular
+                                                ? "bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white shadow-lg shadow-pink-200"
+                                                : "bg-white border-2 border-slate-200 hover:border-pink-300 hover:bg-pink-50 text-slate-900"
+                                                }`}
+                                            variant={plan.popular ? "default" : "outline"}
+                                        >
+                                            {plan.buttonText}
+                                        </Button>
+                                    </Link>
                                 </CardFooter>
                             </Card>
                         </motion.div>

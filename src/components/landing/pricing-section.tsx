@@ -2,6 +2,7 @@
 
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "motion/react";
 
@@ -17,7 +18,7 @@ const plans = [
             "Musik Latar Standard",
             "Fitur RSVP Dasar",
         ],
-        buttonText: "Mulai Gratis",
+        buttonText: "Buat Undangan",
         popular: false,
     },
     {
@@ -33,7 +34,7 @@ const plans = [
             "Kirim Undangan via WhatsApp",
             "Peta Lokasi Interaktif",
         ],
-        buttonText: "Pilih Premium",
+        buttonText: "Buat Undangan",
         popular: true,
     },
     {
@@ -49,7 +50,7 @@ const plans = [
             "QR Code Check-in",
             "Export Data ke Excel",
         ],
-        buttonText: "Hubungi Kami",
+        buttonText: "Buat Undangan",
         popular: false,
     },
 ];
@@ -86,8 +87,8 @@ export function PricingSection() {
                         >
                             <Card
                                 className={`relative flex flex-col border-2 transition-all duration-300 hover:shadow-2xl h-full ${plan.popular
-                                        ? "border-pink-600 shadow-xl scale-105 z-10 bg-white"
-                                        : "border-transparent bg-slate-50 hover:bg-white hover:border-pink-100"
+                                    ? "border-pink-600 shadow-xl scale-105 z-10 bg-white"
+                                    : "border-transparent bg-slate-50 hover:bg-white hover:border-pink-100"
                                     }`}
                             >
                                 {plan.popular && (
@@ -116,15 +117,17 @@ export function PricingSection() {
                                     </ul>
                                 </CardContent>
                                 <CardFooter>
-                                    <Button
-                                        className={`w-full ${plan.popular
+                                    <Link href="/login" className="w-full">
+                                        <Button
+                                            className={`w-full ${plan.popular
                                                 ? "bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white shadow-lg shadow-pink-200"
                                                 : "bg-white border-2 border-slate-200 hover:border-pink-300 hover:bg-pink-50 text-slate-900"
-                                            }`}
-                                        variant={plan.popular ? "default" : "outline"}
-                                    >
-                                        {plan.buttonText}
-                                    </Button>
+                                                }`}
+                                            variant={plan.popular ? "default" : "outline"}
+                                        >
+                                            {plan.buttonText}
+                                        </Button>
+                                    </Link>
                                 </CardFooter>
                             </Card>
                         </motion.div>
