@@ -52,7 +52,7 @@ export default function ArticlesPage() {
     };
 
     return (
-        <div className="pt-24 pb-20 bg-white min-h-screen">
+        <div className="pt-28 md:pt-36 pb-20 bg-white min-h-screen">
             {/* Header Section */}
             <section className="container mx-auto px-6 md:px-12 mb-16">
                 <div className="text-center max-w-2xl mx-auto space-y-4">

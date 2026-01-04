@@ -25,12 +25,14 @@ export function SiteHeader() {
     const navLinks = [
         { name: "Beranda", href: "/" },
         { name: "Tema", href: "/themes" },
+        { name: "Paket", href: "/pricing" },
         { name: "Artikel", href: "/articles" },
     ];
 
     const isActive = (path: string) => {
         if (path === "/") return pathname === "/";
         if (path === "/articles") return pathname.startsWith("/articles");
+        if (path === "/pricing") return pathname.startsWith("/pricing");
         return pathname === path;
     };
 

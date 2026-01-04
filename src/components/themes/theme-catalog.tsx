@@ -14,7 +14,8 @@ import themeGold from "../../../public/theme_gold_luxury.png";
 import themeRustic from "../../../public/theme_rustic.png";
 
 // Mock Data
-type Category = "All" | "Basic" | "Premium" | "Exclusive" | "Pro";
+// Mock Data
+type Category = "All" | "Basic" | "Premium" | "Exclusive";
 
 interface Theme {
     id: string;
@@ -40,7 +41,7 @@ const customThemes: Theme[] = [
     {
         id: "2",
         name: "Modern Minimalist",
-        category: "Pro",
+        category: "Premium",
         image: themeMinimalist,
         price: "Rp 149.000",
         isNew: true,
@@ -61,7 +62,7 @@ const customThemes: Theme[] = [
         name: "Rustic Charm",
         category: "Premium",
         image: themeRustic,
-        price: "Rp 199.000",
+        price: "Rp 149.000",
         usageCount: "1.5k",
         description: "Paduan elemen kayu dan tekstur kertas craft yang memberikan suasana hangat dan intim pada undangan pernikahan.",
     },
@@ -79,7 +80,7 @@ const customThemes: Theme[] = [
         name: "Bohemian Dream",
         category: "Premium",
         image: themeRustic,
-        price: "Rp 199.000",
+        price: "Rp 149.000",
         isNew: true,
         usageCount: "640",
         description: "Gaya boho yang unik dengan warna-warna earthy dan motif etnik yang artistik untuk pasangan yang berjiwa bebas.",
@@ -96,7 +97,7 @@ const customThemes: Theme[] = [
     {
         id: "8",
         name: "Ocean Breeze",
-        category: "Pro",
+        category: "Premium",
         image: themeMinimalist,
         price: "Rp 149.000",
         usageCount: "730",
@@ -104,7 +105,7 @@ const customThemes: Theme[] = [
     },
 ];
 
-const categories: Category[] = ["All", "Basic", "Premium", "Pro", "Exclusive"];
+const categories: Category[] = ["All", "Basic", "Premium", "Exclusive"];
 
 export function ThemeCatalog() {
     const [activeCategory, setActiveCategory] = useState<Category>("All");
@@ -245,12 +246,7 @@ export function ThemeCatalog() {
                                                 )}
                                             </div>
 
-                                            {/* Price Tag (Floating) */}
-                                            <div className="absolute bottom-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-75">
-                                                <Badge className="bg-gray-900 text-white border-none px-3 py-1 text-sm shadow-lg">
-                                                    {theme.price === "Free" ? "Gratis" : theme.price}
-                                                </Badge>
-                                            </div>
+                                            {/* Price Tag removed from here */}
                                         </div>
 
                                         {/* Content Area */}
@@ -259,16 +255,18 @@ export function ThemeCatalog() {
                                                 <h3 className="text-lg font-bold text-gray-900 group-hover:text-pink-600 transition-colors">
                                                     {theme.name}
                                                 </h3>
-                                                <p className="text-xs text-gray-400 mt-0.5 font-medium uppercase tracking-wider">
-                                                    Undangan Digital
-                                                </p>
+                                                <div className="flex items-center gap-1.5 mt-1 text-gray-500">
+                                                    <Users className="w-3.5 h-3.5" />
+                                                    <span className="text-xs font-medium">{theme.usageCount} Digunakan</span>
+                                                </div>
                                             </div>
                                             <div className="flex flex-col items-end">
-                                                <div className="flex items-center gap-1.5 text-pink-600 font-bold text-sm">
-                                                    <Users className="w-3.5 h-3.5" />
-                                                    <span>{theme.usageCount}</span>
-                                                </div>
-                                                <span className="text-[10px] text-gray-400 font-medium uppercase tracking-tighter">Digunakan</span>
+                                                <span className={`text-base font-bold px-3 py-1 rounded-full ${theme.price === "Free"
+                                                    ? "bg-green-100 text-green-700"
+                                                    : "bg-gray-100 text-gray-900"
+                                                    }`}>
+                                                    {theme.price === "Free" ? "Gratis" : theme.price}
+                                                </span>
                                             </div>
                                         </div>
                                     </Card>
