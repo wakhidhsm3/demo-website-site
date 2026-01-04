@@ -215,7 +215,10 @@ export function ThemeCatalog() {
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ duration: 0.4, ease: "easeOut" }}
                                 >
-                                    <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 bg-white h-full flex flex-col rounded-2xl ring-1 ring-gray-100">
+                                    <Card
+                                        onClick={() => setSelectedTheme(theme)}
+                                        className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 bg-white h-full flex flex-col rounded-2xl ring-1 ring-gray-100 cursor-pointer"
+                                    >
                                         {/* Image Area */}
                                         <div className="relative aspect-[4/5] bg-gray-50 overflow-hidden">
                                             <Image
@@ -229,17 +232,6 @@ export function ThemeCatalog() {
 
                                             {/* Overlay Gradient */}
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                                            {/* Overlay Actions */}
-                                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                                <Button
-                                                    onClick={() => setSelectedTheme(theme)}
-                                                    className="bg-white/90 backdrop-blur text-gray-900 hover:bg-white rounded-full px-6 shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
-                                                >
-                                                    <Eye className="w-4 h-4 mr-2" />
-                                                    Lihat Detail
-                                                </Button>
-                                            </div>
 
                                             {/* Badges */}
                                             <div className="absolute top-4 left-4 flex gap-2">
@@ -349,18 +341,18 @@ export function ThemeCatalog() {
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.98, y: 10 }}
                                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                                className="fixed inset-4 md:inset-x-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-5xl md:h-[600px] bg-white rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] z-[101] overflow-hidden flex flex-col md:flex-row border border-gray-100"
+                                className="fixed left-4 right-4 top-1/2 -translate-y-1/2 max-h-[90vh] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-full md:max-w-5xl md:h-[600px] bg-white rounded-3xl md:rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] z-[101] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row border border-gray-100"
                             >
                                 {/* Precise Close Button */}
                                 <button
                                     onClick={() => setSelectedTheme(null)}
-                                    className="absolute top-6 right-6 z-[102] w-12 h-12 rounded-full bg-white/80 backdrop-blur-md text-gray-400 hover:text-gray-900 flex items-center justify-center transition-all hover:scale-110 active:scale-95 border border-gray-100"
+                                    className="absolute top-4 right-4 md:top-6 md:right-6 z-[102] w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 backdrop-blur-md text-gray-400 hover:text-gray-900 flex items-center justify-center transition-all hover:scale-110 active:scale-95 border border-gray-100"
                                 >
-                                    <X className="w-5 h-5" />
+                                    <X className="w-4 h-4 md:w-5 md:h-5" />
                                 </button>
 
                                 {/* Visual Side: Modern Aspect */}
-                                <div className="w-full md:w-[45%] relative min-h-[350px] md:h-full bg-gray-50">
+                                <div className="w-full md:w-[45%] relative h-[250px] md:h-full bg-gray-50 shrink-0">
                                     <Image
                                         src={selectedTheme.image}
                                         alt={selectedTheme.name}
@@ -371,27 +363,27 @@ export function ThemeCatalog() {
                                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-transparent" />
 
                                     {/* Category Floating Badge */}
-                                    <div className="absolute bottom-8 left-8">
-                                        <Badge className="bg-white/95 backdrop-blur-md text-gray-900 border-none px-4 py-2 rounded-full font-bold shadow-xl">
+                                    <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8">
+                                        <Badge className="bg-white/95 backdrop-blur-md text-gray-900 border-none px-3 py-1.5 md:px-4 md:py-2 rounded-full font-bold shadow-xl text-xs md:text-sm">
                                             {selectedTheme.category}
                                         </Badge>
                                     </div>
                                 </div>
 
                                 {/* Content Side: Minimalist & Breathable */}
-                                <div className="flex-1 p-8 md:p-14 flex flex-col justify-between overflow-hidden bg-white">
-                                    <div className="space-y-10">
+                                <div className="flex-1 px-6 pt-6 pb-6 md:p-14 flex flex-col bg-white">
+                                    <div className="space-y-6 md:space-y-10">
                                         {/* Header Info */}
-                                        <div className="space-y-4">
+                                        <div className="space-y-3 md:space-y-4">
                                             <div className="flex items-center gap-4 text-pink-600 font-bold tracking-widest text-[10px] uppercase">
-                                                <div className="w-8 h-[1px] bg-pink-600" />
+                                                <div className="w-6 md:w-8 h-[1px] bg-pink-600" />
                                                 Pratinjau Tema
                                             </div>
-                                            <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight leading-none">
+                                            <h2 className="text-2xl md:text-5xl font-black text-gray-900 tracking-tight leading-none">
                                                 {selectedTheme.name}
                                             </h2>
-                                            <div className="flex items-center gap-6 pt-2">
-                                                <div className="flex items-center gap-2 text-gray-400 text-sm font-medium">
+                                            <div className="flex items-center gap-6 pt-1 md:pt-2">
+                                                <div className="flex items-center gap-2 text-gray-400 text-xs md:text-sm font-medium">
                                                     <Users className="w-4 h-4 text-pink-500" />
                                                     <span>{selectedTheme.usageCount} Pengguna</span>
                                                 </div>
@@ -399,12 +391,12 @@ export function ThemeCatalog() {
                                         </div>
 
                                         {/* Description */}
-                                        <p className="text-gray-500 text-lg font-light leading-relaxed max-w-lg">
+                                        <p className="text-gray-500 text-sm md:text-lg font-light leading-relaxed max-w-lg">
                                             {selectedTheme.description}
                                         </p>
 
                                         {/* Feature Grid */}
-                                        <div className="grid grid-cols-2 gap-y-5 gap-x-8">
+                                        <div className="grid grid-cols-2 gap-y-3 md:gap-y-5 gap-x-4 md:gap-x-8">
                                             {[
                                                 { icon: <Clock className="w-4 h-4" />, text: "Aktif Selamanya" },
                                                 { icon: <MapPin className="w-4 h-4" />, text: "Navigasi Maps" },
@@ -416,27 +408,27 @@ export function ThemeCatalog() {
                                                     initial={{ opacity: 0, x: -10 }}
                                                     animate={{ opacity: 1, x: 0 }}
                                                     transition={{ delay: 0.1 + (i * 0.05) }}
-                                                    className="flex items-center gap-3 text-gray-600 group"
+                                                    className="flex items-center gap-2 md:gap-3 text-gray-600 group"
                                                 >
-                                                    <div className="w-8 h-8 rounded-xl bg-pink-50/50 flex items-center justify-center text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition-all duration-300">
+                                                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-xl bg-pink-50/50 flex items-center justify-center text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition-all duration-300">
                                                         {feature.icon}
                                                     </div>
-                                                    <span className="text-sm font-medium">{feature.text}</span>
+                                                    <span className="text-xs md:text-sm font-medium">{feature.text}</span>
                                                 </motion.div>
                                             ))}
                                         </div>
                                     </div>
 
                                     {/* Action Footer: Minimalist & Brand Pink */}
-                                    <div className="mt-12 flex items-center justify-between pt-8 border-t border-gray-50">
+                                    <div className="mt-6 md:mt-10 flex items-center justify-between pt-5 md:pt-6 border-t border-gray-200">
                                         <div className="flex flex-col">
                                             <span className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em] mb-1">Harga</span>
-                                            <span className="text-2xl font-black text-gray-900 tracking-tight">
+                                            <span className="text-xl md:text-2xl font-black text-gray-900 tracking-tight">
                                                 {selectedTheme.price === "Free" ? "Gratis" : selectedTheme.price}
                                             </span>
                                         </div>
-                                        <Button className="h-14 px-8 rounded-2xl bg-pink-600 hover:bg-pink-700 text-white text-base font-bold shadow-lg shadow-pink-100 transition-all duration-300 hover:scale-[1.02] active:scale-95 group">
-                                            Gunakan Template
+                                        <Button className="h-12 md:h-14 px-6 md:px-8 rounded-full bg-pink-600 hover:bg-pink-700 text-white text-sm md:text-base font-bold shadow-lg shadow-pink-200 transition-all duration-300 hover:scale-[1.02] active:scale-95 group">
+                                            Pilih Tema Ini
                                             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                                         </Button>
                                     </div>

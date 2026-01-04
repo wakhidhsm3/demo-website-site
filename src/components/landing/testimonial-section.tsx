@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "motion/react";
 import { Star, Quote } from "lucide-react";
+import { VelocityScroll } from "@/components/ui/scroll-based-velocity";
 
 const testimonials = [
     {
@@ -29,24 +30,9 @@ const testimonials = [
     },
 ];
 
-const container = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.2
-        }
-    }
-};
-
-const item = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", damping: 25, stiffness: 500 } }
-} as const;
-
 export function TestimonialSection() {
-    // Quadruple testimonials for smoother infinite loop
-    const loopTestimonials = [...testimonials, ...testimonials, ...testimonials, ...testimonials];
+    // Double testimonials for seamless infinite loop
+    const loopTestimonials = [...testimonials, ...testimonials];
 
     return (
         <section id="testimonials" className="py-20 md:py-28 bg-white relative overflow-hidden">
@@ -76,38 +62,31 @@ export function TestimonialSection() {
                 </motion.div>
             </div>
 
-            {/* Marquee Container */}
-            <div className="relative w-full overflow-hidden py-12">
+            {/* Scroll Based Velocity Container */}
+            <div className="relative w-full group">
                 {/* Gradient Masks for Smooth Fade Edge */}
-                <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10" />
-                <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10" />
+                <div className="absolute left-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-                <motion.div
-                    className="flex w-max px-4"
-                    animate={{ x: ["0%", "-25%"] }}
-                    transition={{
-                        repeat: Infinity,
-                        ease: "linear",
-                        duration: 30, // Adjust speed here
-                    }}
-                    whileHover={{ animationPlayState: "paused" }}
-                >
+                <VelocityScroll default_velocity={0.4} className="gap-8 py-8">
                     {loopTestimonials.map((testimonial, index) => (
-                        <div key={index} className="w-[350px] md:w-[400px] flex-shrink-0 pr-8">
-                            <Card className="h-full border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white relative overflow-visible group">
-                                <div className="absolute -top-6 left-8 bg-gradient-to-br from-pink-500 to-purple-600 text-white p-3 rounded-xl shadow-lg transform group-hover:-translate-y-1 transition-transform duration-300">
+                        <div key={index} className="w-[350px] md:w-[450px] flex-shrink-0 mr-8 whitespace-normal">
+                            <Card className="h-full border-none shadow-lg hover:shadow-2xl transition-all duration-300 bg-white relative overflow-visible group/card">
+                                <div className="absolute -top-6 left-8 bg-gradient-to-br from-pink-500 to-purple-600 text-white p-3 rounded-xl shadow-lg transform group-hover/card:-translate-y-2 transition-transform duration-300">
                                     <Quote className="w-5 h-5 fill-current" />
                                 </div>
 
-                                <CardContent className="pt-12 pb-6 px-8">
-                                    <div className="flex gap-1 mb-4">
-                                        {[...Array(testimonial.rating)].map((_, i) => (
-                                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                                        ))}
+                                <CardContent className="pt-14 pb-8 px-8 flex flex-col justify-between h-full">
+                                    <div>
+                                        <div className="flex gap-1 mb-4">
+                                            {[...Array(testimonial.rating)].map((_, i) => (
+                                                <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                            ))}
+                                        </div>
+                                        <p className="text-gray-600 leading-relaxed italic relative z-10 text-base">
+                                            "{testimonial.content}"
+                                        </p>
                                     </div>
-                                    <p className="text-gray-600 leading-relaxed italic relative z-10">
-                                        "{testimonial.content}"
-                                    </p>
                                 </CardContent>
 
                                 <CardFooter className="px-8 pb-8 pt-0 flex items-center gap-4">
@@ -123,7 +102,24 @@ export function TestimonialSection() {
                             </Card>
                         </div>
                     ))}
-                </motion.div>
+                </VelocityScroll>
+            </div>
+
+            {/* Wave Divider */}
+            <div className="absolute bottom-0 left-0 w-full leading-none z-10">
+                <svg
+                    className="relative block w-full h-[50px] md:h-[100px]"
+                    data-name="Layer 1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1200 120"
+                    preserveAspectRatio="none"
+                >
+                    <path
+                        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                        className="fill-slate-50"
+                        transform="rotate(180 600 60)"
+                    ></path>
+                </svg>
             </div>
         </section>
     );
